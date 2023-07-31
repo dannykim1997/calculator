@@ -14,14 +14,14 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
-function operate(a, operator, b) {
+function operate(num1, operator, num2) {
     if (operator == "+") {
-        return add(a, b);
+        return add(num1, num2);
     } else if (operator == "-") {
-        return subtract(a, b);
+        return subtract(num1, num2);
     } else if (operator == "*") {
-        return multiply(a, b);
+        return multiply(num1, num2);
     } else if (operator == "/") {
-        return divide(a, b);
+        return divide(num1, num2);
     }
 }
