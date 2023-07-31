@@ -1,3 +1,5 @@
+const numButtons = document.querySelectorAll(".num-button");
+
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -25,3 +27,10 @@ function operate(num1, operator, num2) {
         return divide(num1, num2);
     }
 }
+
+function populateDisplay() {
+    numButtons.forEach(button => button.addEventListener('click', (e) => {
+        console.log(e.target.innerHTML);
+    }))
+}
+populateDisplay();
