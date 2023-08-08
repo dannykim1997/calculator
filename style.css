@@ -9,7 +9,15 @@
     margin: 10vh auto 0 auto;
 }
 
-#display {
+#calculator-display {
+    display: flex;
+    flex-direction: column;
+    /* height: 200px; */
+    /* font-size: 20px; */
+    border: solid red;
+}
+
+/* #output {
     display: flex;
     flex-direction: column;
     height: 200px;
@@ -17,10 +25,18 @@
     border: solid red;
 }
 
-.display-top {
+#button-container {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    font-size: 20px;
+    border: solid red;
+} */
+
+.previous-number {
     border: solid blue;
 }
 
-.display-bottom {
+.current-number {
     border: solid green;
 }

@@ -1,119 +1,155 @@
-let display = document.getElementById("display");
-let displayTop = document.querySelector(".display-top");
-let displayValue = document.querySelector(".display-value");
-let displayBottom = document.querySelector(".display-bottom");
-let numButtons = document.querySelectorAll(".number");
-let expressButtons = document.querySelectorAll(".expression");
-let equalButton = document.querySelector(".equal");
+const currentDisplayNumber = document.querySelector(".current-number");
+const previousDisplayNumber = document.querySelector(".previous-number");
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
+const equalsButton = document.querySelector(".equal");
+const decimalButton = document.querySelector(".decimal");
+const clearButton = document.querySelector(".clear");
 
-let number1 = document.createElement('div');
-let expression = document.createElement('div');
-let number2 = document.createElement('div');
+let currentNum = "";
+let previousNum = "";
+let operator = "";
 
-let partOne = true;
-let partTwo = false;
-number1.textContent = "";
-expression.textContent = "";
-number2.textContent = "";
-let num1String;
-let num2String;
-let num1;
-let num2;
-let operator;
+numberButtons.forEach(button => button.addEventListener("click", (e) => {
+    handleNumber(e.target.innerHTML);
+}))
 
-
-
-//getNumberOne add pressed number buttons to result that will show on display
-function displayEquation() {
-    getNumberOne(); 
-    getOperator();
-    getNumberTwo();
-}
-displayEquation();
-
-function getNumberOne() {
-    numButtons.forEach(button => button.addEventListener('click', (e) => {
-        if(partOne == true) {
-        number1.textContent += e.target.innerHTML;
-        displayBottom.appendChild(number1);
-        num1String = number1.textContent;
-        num1 = parseInt(num1String);
-        // console.log('Default partOne true, partTwo false');
-        // console.log(`getNumberOne partOne ${partOne}`);
-        // console.log(`getNumberOne partTwo ${partTwo}`);
-        }
-    }))
-}
-
-function getOperator() {
-    expressButtons.forEach(button => button.addEventListener('click', (e => {
-        expression.textContent = e.target.innerHTML;
-        displayTop.appendChild(number1);        
-        displayTop.appendChild(expression);
-        operator = expression.textContent;
-        partOne = false;
-        partTwo = true;
-        // console.log(`getOperator partOne ${partOne}`);
-        // console.log(`getOperator partTwo ${partTwo}`);      
-    })))
-}
-
-function getNumberTwo() {
-    numButtons.forEach(button => button.addEventListener('click', (e) => {
-        if(partTwo == true) {
-        number2.textContent += e.target.innerHTML;
-        displayBottom.appendChild(number2);
-        num2String = number2.textContent;
-        num2 = parseInt(num2String);
-        // console.log(`getNumberTwo partOne ${partOne}`);
-        // console.log(`getNumberTwo partTwo ${partTwo}`);
-        }
-    }))
-}
-
-function clickEqualButton() {
-    equalButton.addEventListener('click', () => {
-        doOperation();
-    });
-}
-clickEqualButton();
-
-function doOperation() {
-    if(operator == '+') {
-        console.log(num1+num2);
-    } else if(operator == '-') {
-        console.log(num1-num2);
-    } else if(operator == '*') {
-        console.log(num1*num2);
-    } else if(operator == '/') {
-        console.log(num1/num2);
+function handleNumber(number) {
+    if(currentNum.length <= 11) {
+        currentNum += number;
+        currentDisplayNumber.textContent = currentNum;
+    }
+    if(previousNum !== "" && currentNum !== "" && operator === "") {
+        previousNum = "";
+        currentDisplayNumber.textContent = currentNum;
     }
 }
 
-function add(num1, num2) {
-    return num1 + num2;
+operatorButtons.forEach(button => button.addEventListener("click", (e) => {
+    handleOperator(e.target.innerHTML);
+}))
+
+function handleOperator(op) {
+    if(previousNum == "") {
+        previousNum = currentNum;
+        operatorCheck(op)
+    } 
+    else if(currentNum == "") {
+       operatorCheck(op);
+    } 
+    else {
+        compute();
+        operator = op;
+        currentDisplayNumber.textContent = "";
+        previousDisplayNumber.textContent = previousNum + " " + operator;
+    }
 }
 
-function subtract(num1, num2) {
-    return num1 - num2;
+function operatorCheck(text) {
+    operator = text;
+    previousDisplayNumber.textContent = previousNum + " " + operator;
+    currentDisplayNumber.textContent = "";
+    currentNum = "";
 }
 
-function multiply(num1, num2) {
-    return num1 * num2;
+equalsButton.addEventListener("click", () => {
+    if(currentNum != "" && previousNum != "") {
+        compute();
+    }
+})
+
+function compute() {
+    previousNum = Number(previousNum);
+    currentNum = Number(currentNum);
+
+    if(operator == "+") {
+        previousNum += currentNum;
+    } else if(operator == "-") {
+        previousNum -= currentNum;
+    } else if(operator == "*") {
+        previousNum *= currentNum;
+    } else if(operator == "/") {
+        if(currentNum <= 0) {
+            previousNum = "Error";
+            displayResults();
+            return;
+        }
+        else {
+            previousNum /= currentNum;
+        }
+    }
+    previousNum = roundNumber(previousNum);
+    previousNum = previousNum.toString();
+    displayResults();
 }
 
-function divide(num1, num2) {
-    return num1 / num2;
+function roundNumber(num) {
+    return Math.round(num * 100000) / 100000;
+}
+  
+function displayResults() {
+    if (previousNum.length <= 11) {
+      currentDisplayNumber.textContent = previousNum;
+    } else {
+      currentDisplayNumber.textContent = previousNum.slice(0, 11) + "...";
+    }
+    previousDisplayNumber.textContent = "";
+    operator = "";
+    currentNum = "";
 }
 
-// function operate(num1, operator, num2) {
-//     if (operator == "+") {
-//         return add(num1, num2);
-//     } else if (operator == "-") {
-//         return subtract(num1, num2);
-//     } else if (operator == "*") {
-//         return multiply(num1, num2);
-//     } else if (operator == "/") {
-//         return divide(num1, num2);
-//     }
-// }
+clearButton.addEventListener("click", clearCalculator);
+
+function clearCalculator() {
+    currentNum = "";
+    previousNum = "";
+    operator = "";
+    currentDisplayNumber.textContent = "";
+    previousDisplayNumber.textContent = "";
+}
+
+decimalButton.addEventListener("click", () => {
+    addDecimal();
+})
+
+function addDecimal() {
+    if(!currentNum.includes(".")) {
+        currentNum += ".";
+        currentDisplayNumber.textContent = currentNum;
+    }
+}
+
+function handleDelete() {
+    if(currentNum !== "") {
+        currentNum = currentNum.slice(0, -1);
+        currentDisplayNumber.textContent = currentNum;
+        if(currentNum == "") {
+            currentDisplayNumber.textContent = "";
+        }
+    }
+    if(currentNum == "" && previousNum !== "" && operator == "") {
+        previousNum = previousNum.slice(0, -1);
+        currentDisplayNumber.textContent = previousNum;
+    }
+}
+
+window.addEventListener("keydown", handleKeyPress);
+
+function handleKeyPress(e) {
+    e.preventDefault();
+    if(e.key >= 0 && e.key <= 9) {
+        handleNumber(e.key);
+    } else if(e.key == "Enter" || (e.key == "=" && currentNum != "" && previousNum != "")) {
+        compute();
+    } else if(e.key == "+" || e.key == "-" || e.key == "/") {
+        handleOperator(e.key);
+    } else if(e.key == "*") {
+        handleOperator("*");
+    } else if(e.key == ".") {
+        addDecimal();
+    } else if(e.key == "Backspace") {
+        handleDelete();
+    } else if(e.key == "Clear") {
+        clearCalculator();
+    }
+}
