@@ -1,42 +1,95 @@
+body {
+    background-color: #00f5d4;
+    margin: 0;
+}
+
 .header {
     font-size: 36px;
     text-align: center;
-}
-
-.container {
-    border: black solid;
-    max-width: 400px;
-    margin: 10vh auto 0 auto;
+    margin: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #calculator-display {
+    border: solid #f15bb5;
+    background-color: #9b5de5;
+    max-width: 400px;
+    height: 480px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
-    /* height: 200px; */
-    /* font-size: 20px; */
-    border: solid red;
+    justify-content: center;
+    padding: 12px;
 }
 
-/* #output {
+#output {
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    height: 200px;
-    font-size: 20px;
-    border: solid red;
+    border: 2px solid #fee440;
 }
-
-#button-container {
-    display: flex;
-    flex-direction: column;
-    height: 200px;
-    font-size: 20px;
-    border: solid red;
-} */
 
 .previous-number {
-    border: solid blue;
+    text-align: left;
+    background-color: #00bbf9;
+    height: 60px;
+    font-size: 30px;
+    padding-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .current-number {
-    border: solid green;
+    text-align: right;
+    background-color: #00bbf9;
+    height: 60px;
+    font-size: 40px;
+    padding-right: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+#button-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 2; }
+.div2 { grid-area: 1 / 2 / 2 / 3; }
+.div3 { grid-area: 1 / 3 / 2 / 4; }
+.div4 { grid-area: 1 / 4 / 2 / 5; }
+.div5 { grid-area: 2 / 1 / 3 / 2; }
+.div6 { grid-area: 2 / 2 / 3 / 3; }
+.div7 { grid-area: 2 / 3 / 3 / 4; }
+.div8 { grid-area: 2 / 4 / 3 / 5; }
+.div9 { grid-area: 3 / 1 / 4 / 2; }
+.div10 { grid-area: 3 / 2 / 4 / 3; }
+.div11 { grid-area: 3 / 3 / 4 / 4; }
+.div12 { grid-area: 3 / 4 / 4 / 5; }
+.div13 { grid-area: 4 / 1 / 5 / 2; }
+.div14 { grid-area: 4 / 2 / 5 / 3; }
+.div15 { grid-area: 4 / 3 / 5 / 4; }
+.div16 { grid-area: 4 / 4 / 5 / 5; }
+
+.equal {
+    margin-top: 15px;
+}
+
+button {
+    font-size: 30px;
+    border-radius: 12px;
+    border: 2px solid #fee440;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    background-color: #fee440;
+}
+
+
+
+
